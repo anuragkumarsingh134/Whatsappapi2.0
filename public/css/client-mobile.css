@@ -1,0 +1,80 @@
+/* Mobile Responsive */
+@media (max-width: 968px) {
+    .header-brand h1 {
+        font-size: 1.1rem;
+    }
+
+    .brand-icon {
+        width: 24px;
+        height: 24px;
+    }
+
+    .header-right {
+        gap: 8px;
+    }
+
+    .username-display {
+        display: none;
+    }
+
+    .btn-profile,
+    .btn-logout {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 90px 16px 24px;
+    }
+
+    .page-intro h2 {
+        font-size: 1.5rem;
+    }
+
+    .page-intro p {
+        font-size: 1rem;
+    }
+
+    .sessions-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .create-btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-header {
+        padding: 0 12px;
+    }
+
+    .header-brand h1 {
+        font-size: 1rem;
+    }
+
+    .btn-profile,
+    .btn-logout {
+        padding: 6px 10px;
+        font-size: 0.75rem;
+    }
+
+    .page-intro h2 {
+        font-size: 1.25rem;
+    }
+
+    .session-card {
+        padding: 20px;
+    }
+
+    .device-id {
+        font-size: 18px;
+    }
+
+    .modal-content {
+        margin: 50px auto;
+        padding: 24px;
+    }
+}

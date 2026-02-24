@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Cloud Whatsapp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/admin-quota.css">
+</head>
+
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <div class="logo">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+                Cloud Whatsapp Admin
+            </div>
+            <nav>
+                <div class="nav-item active" onclick="switchTab('dashboard')">Dashboard</div>
+                <a href="/admin-devices" class="nav-item" style="text-decoration:none;color:inherit;">All Devices</a>
+                <!-- <div class="nav-item" onclick="switchTab('logs')">System Logs</div> -->
+            </nav>
+        </aside>
+
+        <main class="main">
+            <div class="header">
+                <h1>Overview</h1>
+                <div class="header-actions">
+                    <a href="/profile" class="btn-profile" style="text-decoration:none;">Profile</a>
+                    <button class="btn-logout" onclick="logout()">Logout</button>
+                </div>
+            </div>
+
+            <div class="metrics-grid" id="metricsGrid">
+                <!-- Populated by JS -->
+                <div class="metric-card">
+                    <div class="metric-title">System Status</div>
+                    <div class="metric-value">Loading...</div>
+                </div>
+            </div>
+
+            <h2 class="section-title">User Management</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Devices</th>
+                            <th>Messages Today</th>
+                            <th>Expiry</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable">
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Quota Edit Modal -->
+    <div id="quotaModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit User Quotas</h3>
+                <button class="modal-close" onclick="closeQuotaModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="quotaUserInfo" class="quota-user-info"></div>
+
+                <div class="form-group">
+                    <label>Device Limit</label>
+                    <input type="number" id="quota_device_limit" min="1" max="100">
+                    <small>Maximum number of WhatsApp sessions</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Daily Message Quota</label>
+                    <input type="number" id="quota_message_daily" min="0" max="100000">
+                    <small>Messages allowed per day</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Monthly Message Quota</label>
+                    <input type="number" id="quota_message_monthly" min="0" max="1000000">
+                    <small>Messages allowed per month</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Storage Limit (MB)</label>
+                    <input type="number" id="quota_storage_limit" min="0" max="10000">
+                    <small>Maximum file storage allowed</small>
+                </div>
+
+                <div class="form-group">
+                    <label>Account Expiry</label>
+                    <input type="date" id="quota_expiry">
+                    <small>Leave empty for no expiration</small>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="quota_unlimited">
+                        <span>Unlimited Access (bypass all limits)</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeQuotaModal()">Cancel</button>
+                    <button class="btn-primary" onclick="saveQuotas()">Save Changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/admin.js"></script>
+    <script src="/js/admin-quota.js"></script>
+</body>
+
+</html>

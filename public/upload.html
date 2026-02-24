@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload - Cloud Whatsapp</title>
+    <link rel="stylesheet" href="/css/upload.css">
+</head>
+
+<body>
+    <!-- Fixed Header -->
+    <header class="top-header">
+        <div class="header-left">
+            <a href="/" class="back-link" title="Back to Sessions">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Sessions
+            </a>
+        </div>
+        <div class="header-right">
+            <span id="usernameDisplay"></span>
+            <button class="btn-profile" onclick="openProfile()">Profile</button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h2>📤 File Upload</h2>
+            <p>Upload files to the server and get shareable URLs</p>
+        </div>
+
+        <!-- Upload Card -->
+        <div class="upload-card">
+            <!-- Device Selection -->
+            <div class="device-select-section">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                    Select Device
+                </h3>
+                <select id="deviceSelect" onchange="loadDeviceInfo()">
+                    <option value="">Select a session...</option>
+                </select>
+                <div id="deviceInfo" class="device-info hidden"></div>
+            </div>
+
+            <!-- Upload Section -->
+            <div id="uploadSection" class="upload-section hidden">
+                <div class="drop-zone" id="dropZone">
+                    <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <div class="drop-zone-text">Drag & drop file here or click to browse</div>
+                    <div class="drop-zone-hint">Max file size: 50MB</div>
+                    <input type="file" id="fileInput" hidden>
+                </div>
+
+                <!-- File Info -->
+                <div id="fileInfo" class="file-info hidden">
+                    <div class="file-details">
+                        <div class="file-icon-display">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="file-text">
+                            <div id="fileName" class="file-name"></div>
+                            <div id="fileSize" class="file-size"></div>
+                        </div>
+                    </div>
+                    <button class="btn-clear" onclick="clearFile()">✕</button>
+                </div>
+
+                <!-- Progress -->
+                <div id="uploadProgress" class="upload-progress hidden">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <div id="progressText" class="progress-text">0%</div>
+                </div>
+
+                <!-- Success -->
+                <div id="uploadSuccess" class="upload-success hidden">
+                    <div class="success-header">
+                        <div class="success-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <div class="success-title">File uploaded successfully!</div>
+                    </div>
+                    <div class="url-container">
+                        <input type="text" id="fileUrl" class="url-input" readonly>
+                        <button class="btn-copy" onclick="copyUrl()">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Uploaded Files List -->
+        <div id="filesSection" class="card files-card hidden">
+            <h3>
+                <svg class="icon" viewBox="0 0 24 24">
+                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                    <polyline points="13 2 13 9 20 9"></polyline>
+                </svg>
+                Uploaded Files
+            </h3>
+            <div id="filesList" class="files-list">
+                <div class="files-loading">Loading files...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Profile</h2>
+                <button class="btn-close" onclick="closeProfile()">&times;</button>
+            </div>
+            <form id="profileForm" onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="p_username" required>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="p_name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="p_email" placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="p_password">
+                </div>
+                <button type="submit" class="btn-save">Save Changes</button>
+                <p id="profileMsg"></p>
+            </form>
+        </div>
+    </div>
+
+    <script src="/js/upload.js"></script>
+</body>
+
+</html>

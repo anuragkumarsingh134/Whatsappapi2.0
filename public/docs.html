@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation - Cloud Whatsapp</title>
+    <link rel="stylesheet" href="/css/docs.css">
+</head>
+
+<body>
+    <!-- Fixed Header -->
+    <header class="top-header">
+        <div class="header-left">
+            <a href="/" class="back-link" id="backLink" title="Back to Session">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+            </a>
+            <div class="header-brand">
+                <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                <h1>API Documentation</h1>
+            </div>
+        </div>
+        <div class="header-right">
+            <span class="device-badge">
+                <strong id="deviceDisplayName">...</strong>
+            </span>
+        </div>
+    </header>
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+        <nav class="nav-list">
+            <a href="#intro" class="nav-link active">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                Introduction
+            </a>
+            <a href="#auth" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                Authentication
+            </a>
+            <a href="#text" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                Sending Text
+            </a>
+            <a href="#docs" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                Sending Documents
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content">
+        <div class="intro-section">
+            <h2>API Reference</h2>
+            <p class="subtitle">Learn how to integrate the Cloud Whatsapp API into your application with these live
+                examples</p>
+        </div>
+
+        <section id="intro" class="doc-section">
+            <h3>Introduction</h3>
+            <p>The Cloud Whatsapp API allows you to programmatically send messages via authenticated WhatsApp sessions.
+                All endpoints require an API Key specifically generated for your device.</p>
+        </section>
+
+        <section id="auth" class="doc-section">
+            <h3>Authentication</h3>
+            <p>Pass your API Key in the <code>Authorization</code> header as a Bearer token.</p>
+            <div class="code-block">
+                <pre>Authorization: Bearer <span id="authKeyLabel" class="highlight">YOUR_API_KEY</span></pre>
+            </div>
+        </section>
+
+        <section id="text" class="doc-section">
+            <h3>Sending Text Messages</h3>
+            <p>Send plain text messages to any WhatsApp number.</p>
+
+            <div class="doc-card">
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="url">/api/messages/send</span>
+                </div>
+                <table class="param-table">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>deviceId</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>The unique ID of the session</td>
+                    </tr>
+                    <tr>
+                        <td><code>number</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Recipient phone number (with country code)</td>
+                    </tr>
+                    <tr>
+                        <td><code>message</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>The text message content</td>
+                    </tr>
+                </table>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard('curlTextExample')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy cURL
+                    </button>
+                    <pre id="curlTextExample"></pre>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/messages/send</span>
+                </div>
+                <p class="note">You can also send messages using a simple HTTP GET request.</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard('getUrlTextExample')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy URL
+                    </button>
+                    <pre id="getUrlTextExample"></pre>
+                </div>
+            </div>
+        </section>
+
+        <section id="docs" class="doc-section">
+            <h3>Sending PDF / Documents</h3>
+            <p>Send PDFs, images, or any other documents by providing a public URL.</p>
+
+            <div class="doc-card">
+                <div class="endpoint">
+                    <span class="method post">POST</span>
+                    <span class="url">/api/messages/send-file</span>
+                </div>
+                <table class="param-table">
+                    <tr>
+                        <th>Parameter</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><code>deviceId</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>The unique ID of the session</td>
+                    </tr>
+                    <tr>
+                        <td><code>number</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Recipient phone number</td>
+                    </tr>
+                    <tr>
+                        <td><code>url</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>Public URL of the document</td>
+                    </tr>
+                    <tr>
+                        <td><code>fileName</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>(Optional) Custom name for the file</td>
+                    </tr>
+                    <tr>
+                        <td><code>mimetype</code></td>
+                        <td><span class="type-badge">string</span></td>
+                        <td>(Optional) MIME type (defaults to application/pdf)</td>
+                    </tr>
+                </table>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard('curlFileExample')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy cURL
+                    </button>
+                    <pre id="curlFileExample"></pre>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <p class="card-title">JavaScript Fetch Example</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard('jsFileExample')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy JS
+                    </button>
+                    <pre id="jsFileExample"></pre>
+                </div>
+            </div>
+
+            <div class="doc-card">
+                <div class="endpoint">
+                    <span class="method get">GET</span>
+                    <span class="url">/api/messages/send-file</span>
+                </div>
+                <p class="note">You can also send documents using a simple HTTP GET request.</p>
+                <div class="code-block">
+                    <button class="copy-btn" onclick="copyToClipboard('getUrlFileExample')">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Copy URL
+                    </button>
+                    <pre id="getUrlFileExample"></pre>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/js/docs.js"></script>
+</body>
+
+</html>

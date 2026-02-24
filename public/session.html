@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Detail - Cloud Whatsapp</title>
+    <link rel="stylesheet" href="/css/session.css">
+</head>
+
+<body>
+    <!-- Static Header -->
+    <header class="top-header">
+        <div class="header-left">
+            <a href="/" class="back-link" title="Back to Sessions">
+                <svg class="icon" viewBox="0 0 24 24">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back
+            </a>
+        </div>
+        <div class="header-right">
+            <a href="/upload" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                File Upload
+            </a>
+            <a href="#" onclick="window.location.href += '/docs'" class="nav-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                </svg>
+                API Documentation
+            </a>
+            <span id="usernameDisplay"></span>
+            <button class="btn-profile" onclick="openProfile()">Profile</button>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+        </div>
+    </header>
+
+    <div class="container main-content">
+        <div class="page-title">
+            <h1 id="deviceIdTitle">Loading...</h1>
+        </div>
+
+        <!-- Top Row: Management Cards -->
+        <div class="management-grid">
+            <!-- Session Info Card -->
+            <div class="card">
+                <div id="statusBadge" class="status-badge">Loading...</div>
+                <div id="sessionInfo" class="info-list"></div>
+
+                <!-- Connect Button -->
+                <div id="connectSection" class="hidden">
+                    <button class="btn btn-connect" onclick="startSession()">
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="3" width="7" height="7"></rect>
+                            <rect x="14" y="14" width="7" height="7"></rect>
+                            <rect x="3" y="14" width="7" height="7"></rect>
+                        </svg>
+                        Generate QR Code
+                    </button>
+                </div>
+            </div>
+
+            <!-- API Key Info Card -->
+            <div id="apiKeySection" class="card hidden">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path
+                            d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
+                        </path>
+                    </svg>
+                    API Key
+                </h3>
+                <div id="apiKeyDisplay" style="margin-bottom: 16px;"></div>
+                <button class="btn btn-secondary-outline" onclick="openProfile()" style="width:100%">
+                    <svg class="icon" style="width: 16px; height: 16px;" viewBox="0 0 24 24">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                    Manage API Key in Profile
+                </button>
+            </div>
+
+            <!-- Actions Card -->
+            <div class="card">
+                <h3>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path d="M12 1v6m0 6v6m9-9h-6m-6 0H3"></path>
+                    </svg>
+                    Actions
+                </h3>
+                <button class="btn btn-danger" onclick="deleteSession()" style="width:100%">
+                    Delete Session
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Row: Communication Tools (Centered) -->
+        <div class="tools-wrapper">
+            <div class="tools-grid">
+                <!-- Send Message Card -->
+                <div id="messageSection" class="card hidden">
+                    <h3>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        Send Test Message
+                    </h3>
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="text" id="phoneInput" placeholder="e.g., 1234567890">
+                    </div>
+                    <div class="form-group">
+                        <label>Message</label>
+                        <textarea id="messageInput" rows="5.59" placeholder="Hello World"></textarea>
+                    </div>
+                    <button class="btn" onclick="sendMessage()" style="width:100%">Send Message</button>
+                </div>
+
+                <!-- Send PDF Card -->
+                <div id="pdfSection" class="card hidden">
+                    <h3>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        Send PDF Document
+                    </h3>
+                    <div class="form-group">
+                        <label>Recipient Phone Number</label>
+                        <input type="text" id="pdfPhoneInput" placeholder="e.g., 1234567890">
+                    </div>
+                    <div class="form-group">
+                        <label>PDF URL</label>
+                        <input type="text" id="pdfUrlInput" placeholder="https://example.com/file.pdf">
+                    </div>
+                    <div class="form-group">
+                        <label>File Name (Optional)</label>
+                        <input type="text" id="pdfFileNameInput" placeholder="document.pdf">
+                    </div>
+                    <button class="btn" onclick="sendPDF()" style="width:100%">Send PDF</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- QR Code Modal -->
+    <div id="qrModal" class="modal">
+        <div class="modal-content qr-modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Scan QR Code</h2>
+                <button class="btn-close" onclick="closeQRModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="qr-instructions">Open WhatsApp on your phone, go to Linked Devices, and scan this code.</p>
+                <div class="qr-container" id="qrContainer">
+                    <div class="qr-placeholder">Generating QR...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Profile</h2>
+                <button class="btn-close" onclick="closeProfile()">&times;</button>
+            </div>
+            <form id="profileForm" onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="p_username" required>
+                </div>
+                <div class="form-group">
+                    <label>Name</label>
+                    <input type="text" id="p_name" placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="p_email" placeholder="john@example.com">
+                </div>
+                <div class="form-group">
+                    <label>New Password</label>
+                    <input type="password" id="p_password">
+                </div>
+                <button type="submit" class="btn-save">Save Changes</button>
+                <p id="profileMsg"></p>
+            </form>
+
+            <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+
+            <!-- API Key Management Section -->
+            <h3 style="margin-bottom: 12px; color: #e2e8f0;">
+                <svg class="icon" viewBox="0 0 24 24"
+                    style="width:18px;height:18px;vertical-align:middle;margin-right:6px;">
+                    <path
+                        d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4">
+                    </path>
+                </svg>
+                API Key
+            </h3>
+            <div id="profileApiKeyDisplay"
+                style="margin-bottom: 12px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; font-family: monospace; word-break: break-all; color: #94a3b8;">
+                Loading...
+            </div>
+            <button class="btn-save" style="background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); width: 100%;"
+                onclick="generateProfileApiKey()">
+                Generate / Regenerate API Key
+            </button>
+            <p id="apiKeyMsg" style="margin-top: 8px; font-size: 0.85rem;"></p>
+        </div>
+    </div>
+
+    <script src="/js/session.js"></script>
+</body>
+
+</html>
